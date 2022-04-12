@@ -1,0 +1,666 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.3/jquery.min.js"></script>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css"
+        integrity="sha384-MCw98/SFnGE8fJT3GXwEOngsV7Zt27NXFoaoApmYm81iuXoPkFOJwJ8ERdknLPMO" crossorigin="anonymous">
+    <link rel="stylesheet" href="css/styles.css">
+    <link rel="stylesheet" href="css/calculadora.css" > 
+    <title>Termodinámica</title>
+</head>
+
+<body>
+    <div class="container-fluid">
+        <!--Campos Vacios-->
+        <div class="modal" tabindex="-1" role="dialog" aria-labelledby="mySmallModalLabel" aria-hidden="true"
+            id="mi-modal-camposVacios">
+            <div class="modal-dialog" role="document">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="myModalLabel">Mensaje de Advertencia</h5>
+                    </div>
+                    <div class="modal-body">
+                        <p>Solo puede haber un campo vacio</p>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-default" id="modal-del-btn-close">Cerrar</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!--Solo numeros-->
+        <div class="modal" tabindex="-1" role="dialog" aria-labelledby="mySmallModalLabel" aria-hidden="true"
+            id="mi-modal-del">
+            <div class="modal-dialog" role="document">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="myModalLabel">Mensaje de Advertencia</h5>
+                    </div>
+                    <div class="modal-body">
+                        <p>Los campos deben contener solo números</p>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-default" id="modal-del-btn-cerrar">Cerrar</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!--CALCULADORA-->
+        <div class="modal" tabindex="-1" role="dialog" aria-labelledby="mySmallModalLabel" aria-hidden="true"
+            id="mi-modal-calculadora">
+            <div class="modal-dialog" role="document">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="myModalLabel">Calculadora</h5>
+                    </div>
+                    <div class="modal-body">
+                        <table>
+                            <tr>
+                                <td colspan="4"><button id="result">0</button></td>
+                            </tr>
+                            <tr>
+                                <td><button onclick="add('1')">1</button></td>
+                                <td><button onclick="add('2')">2</button></td>
+                                <td><button onclick="add('3')">3</button></td>
+                                <td><button onclick="add('+')">+</button></td>
+                            </tr>
+                            <tr>
+                                <td><button onclick="add('4')">4</button></td>
+                                <td><button onclick="add('5')">5</button></td>
+                                <td><button onclick="add('6')">6</button></td>
+                                <td><button onclick="add('-')">-</button></td>
+                            </tr>
+                            <tr>
+                                <td><button onclick="add('7')">7</button></td>
+                                <td><button onclick="add('8')">8</button></td>
+                                <td><button onclick="add('9')">9</button></td>
+                                <td><button onclick="add('*')">*</button></td>
+                            </tr>
+                            <tr>
+                                <td colspan="3"><button onclick="add('0')">0</button></td>
+                                <td colspan="3"><button onclick="add('/')">/</button></td>
+                            </tr>
+                            <tr>
+                                <td colspan="2"><button onclick="del()" class="ac">AC</button></td>
+                                <td><button onclick="add('.')">.</button></td>
+                                <td><button onclick="calc()">=</button></td>
+                            </tr>
+                        </table>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-default" id="modal-del-btn-cerrar-cal">Cerrar</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <br>
+        <div id="tituloDiv">
+            <h3 class="titulo">Termodinámica</h3>
+        </div>
+        <nav>
+            <div class="nav nav-tabs" id="nav-tab" role="tablist">
+                <a class="nav-item nav-link active" id="nav-home-tab" data-toggle="tab" href="#nav-home" role="tab"
+                    aria-controls="nav-home" aria-selected="true">Entropía</a>
+                <a class="nav-item nav-link" id="nav-profile-tab" data-toggle="tab" href="#nav-profile" role="tab"
+                    aria-controls="nav-profile" aria-selected="false">Entalpía</a>
+                <a class="nav-item nav-link" id="nav-contact-tab" data-toggle="tab" href="#nav-contact" role="tab"
+                    aria-controls="nav-contact" aria-selected="false">Ley de los Gases Ideales</a>
+                <a class="nav-item nav-link" id="nav-energia-tab" data-toggle="tab" href="#nav-energia" role="tab"
+                    aria-controls="nav-energia" aria-selected="false">Energia libre de Gibbs</a>
+            </div>
+        </nav>
+        <div id="backGroundFondo">
+            <div class="tab-content" id="nav-tabContent">
+                <div class="tab-pane fade show active" id="nav-home" role="tabpanel" aria-labelledby="nav-home-tab">
+                    <div class="container-fluid">
+                        <br>
+                        <div class="row">
+                            <div class="col-6">
+                                <div class="row">
+                                    <div class="container">
+                                        <div class="row align-items-center">
+                                            <div class="col-md-12">
+                                                <h4>Datos</h4>
+                                            </div><br>
+                                            <div class="col-md-12">
+                                                <div class="form-group mx-sm-1 mb-2">
+                                                    <div class="row">
+                                                        <div class="col-1">
+                                                            <div id="variacionEntropiaImg"> <img src="icons/deltaS.png"
+                                                                    class="sizeImagen"></div>
+                                                        </div>
+                                                        <div class="col-5">
+                                                            <input type="text" class="form-control form-control-sm"
+                                                                id="variacionEntropia"
+                                                                placeholder="Variación de entropía">
+                                                        </div>
+                                                        <div class="col-3">
+                                                            <div class="medidaCantidades">J/K</div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="col-md-12">
+                                                <div class="form-group mx-sm-1 mb-2">
+                                                    <div class="row">
+                                                        <div class="col-1">
+                                                            <div id="energiaCalImg"> <img
+                                                                    src="icons/energiaCalorica.png"
+                                                                    class="sizeImagenLetras">
+                                                            </div>
+                                                        </div>
+                                                        <div class="col-5">
+                                                            <input type="text" class="form-control form-control-sm"
+                                                                id="energiaCal" placeholder="Energía Calórica">
+                                                        </div>
+                                                        <div class="col-2">
+                                                            <div class="medidaCantidades">J</div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="col-md-12">
+                                                <div class="form-group mx-sm-1 mb-2">
+                                                    <div class="row">
+                                                        <div class="col-1">
+                                                            <div id="gradosKelvinImg"> <img src="icons/temperatura.png"
+                                                                    class="sizeImagenLetras">
+                                                            </div>
+                                                        </div>
+                                                        <div class="col-5">
+                                                            <input type="text" class="form-control form-control-sm"
+                                                                id="gradosKelvin" placeholder="Temperatura °K">
+                                                        </div>
+                                                        <div class="col-1">
+                                                            <div class="medidaCantidades">°K</div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="col-md-12">
+                                                <br><br>
+                                                <div class="row">
+                                                    <div class="form-group mx-sm-3 mb-2">
+                                                        <button type="button" id="btnCalcularEntropia"
+                                                            class="btn btn-primary btn-sm">Calcular</button>
+                                                    </div>
+                                                    <div class="form-group mx-sm-3 mb-2">
+                                                        <button type="button" id="btnLimpiarEntropia"
+                                                            class="btn btn-success btn-sm">Limpiar
+                                                            Campos</button>
+                                                    </div>
+                                                    <div class="form-group mx-sm-3 mb-2">
+                                                        <img src="icons/calculator.png" onclick="modalCal()">
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="col-md-12">
+
+                                            </div>
+
+                                            <div class="col-md-12">
+
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-3">
+                                <div class="row">
+                                    <h4>Resultado</h4>
+                                </div>
+                                <div class="row">
+                                    <input type="text" class="form-control form-control-sm" id="resultado"
+                                        placeholder="Resultado" readonly>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <!--INICIO ENTALPIA-->
+                <div class="tab-pane fade" id="nav-profile" role="tabpanel" aria-labelledby="nav-profile-tab">
+                    <div class="container-fluid">
+                        <br>
+                        <div class="row">
+                            <div class="col-6">
+                                <div class="row">
+                                    <div class="container">
+                                        <div class="row align-items-center">
+                                            <div class="col-md-12">
+                                                <h4>Datos</h4>
+                                            </div><br>
+                                            <div class="col-md-12">
+                                                <div class="form-group mx-sm-1 mb-2">
+                                                    <div class="row">
+                                                        <div class="col-1">
+                                                            <div id=""> <img src="icons/h.png" class="sizeImagen">
+                                                            </div>
+                                                        </div>
+                                                        <div class="col-5">
+                                                            <input type="text" class="form-control form-control-sm"
+                                                                id="txtEntalpia" placeholder="Entalpía">
+                                                        </div>
+                                                        <div class="col-3">
+                                                            <div class="medidaCantidades">KJ</div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="col-md-12">
+                                                <div class="form-group mx-sm-1 mb-2">
+                                                    <div class="row">
+                                                        <div class="col-1">
+                                                            <div id=""> <img src="icons/u.png" class="sizeImagenLetras">
+                                                            </div>
+                                                        </div>
+                                                        <div class="col-5">
+                                                            <input type="text" class="form-control form-control-sm"
+                                                                id="txtEnergiaInterna" placeholder="Energía Interna">
+                                                        </div>
+                                                        <div class="col-2">
+                                                            <div class="medidaCantidades">J</div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="col-md-12">
+                                                <div class="form-group mx-sm-1 mb-2">
+                                                    <div class="row">
+                                                        <div class="col-1">
+                                                            <div id=""> <img src="icons/p.png" class="sizeImagenLetras">
+                                                            </div>
+                                                        </div>
+                                                        <div class="col-5">
+                                                            <input type="text" class="form-control form-control-sm"
+                                                                id="txtPresion" placeholder="Presión">
+                                                        </div>
+                                                        <div class="col-1">
+                                                            <div class="medidaCantidades">atm</div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="col-md-12">
+                                                <div class="form-group mx-sm-1 mb-2">
+                                                    <div class="row">
+                                                        <div class="col-1">
+                                                            <div id=""> <img src="icons/v.png" class="sizeImagenLetras">
+                                                            </div>
+                                                        </div>
+                                                        <div class="col-5">
+                                                            <input type="text" class="form-control form-control-sm"
+                                                                id="txtVolumen" placeholder="Volumen">
+                                                        </div>
+                                                        <div class="col-1">
+                                                            <div class="medidaCantidades">L</div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="col-md-12">
+                                                <br><br>
+                                                <div class="row">
+                                                    <div class="form-group mx-sm-3 mb-2">
+                                                        <button type="button" id="btnCalcularEntalpia"
+                                                            class="btn btn-primary btn-sm">Calcular</button>
+                                                    </div>
+                                                    <div class="form-group mx-sm-3 mb-2">
+                                                        <button type="button" id="btnLimpiarEntalpia"
+                                                            class="btn btn-success btn-sm">Limpiar
+                                                            Campos</button>
+                                                    </div>
+                                                    <div class="form-group mx-sm-3 mb-2">
+                                                        <img src="icons/calculator.png" onclick="modalCal()">
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-3">
+                                <div class="row">
+                                    <h4>Resultado</h4>
+                                </div>
+                                <div class="row">
+                                    <input type="text" class="form-control form-control-sm" id="resultadoEntalpia"
+                                        placeholder="Resultado" readonly>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <!--LEY DE LOS GASES -->
+                <div class="tab-pane fade" id="nav-contact" role="tabpanel" aria-labelledby="nav-contact-tab">
+                    <div class="container-fluid">
+                        <br>
+                        <div class="row">
+                            <div class="col-6">
+                                <div class="row">
+                                    <div class="container">
+                                        <div class="row align-items-center">
+                                            <div class="col-md-12">
+                                                <h4>Datos</h4>
+                                            </div><br>
+                                            <div class="col-md-12">
+                                                <div class="form-group mx-sm-1 mb-2">
+                                                    <div class="row">
+                                                        <div class="col-1">
+                                                            <div id=""> <img src="icons/p.png" class="sizeImagen">
+                                                            </div>
+                                                        </div>
+                                                        <div class="col-5">
+                                                            <input type="text" class="form-control form-control-sm"
+                                                                id="txtPresionG" placeholder="Presión">
+                                                        </div>
+                                                        <div class="col-3">
+                                                            <div class="medidaCantidades">atm</div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="col-md-12">
+                                                <div class="form-group mx-sm-1 mb-2">
+                                                    <div class="row">
+                                                        <div class="col-1">
+                                                            <div id=""> <img src="icons/v.png" class="sizeImagenLetras">
+                                                            </div>
+                                                        </div>
+                                                        <div class="col-5">
+                                                            <input type="text" class="form-control form-control-sm"
+                                                                id="txtVolumenG" placeholder="Volumen">
+                                                        </div>
+                                                        <div class="col-2">
+                                                            <div class="medidaCantidades">L</div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="col-md-12" id="campo1">
+                                                <div class="form-group mx-sm-1 mb-2">
+                                                    <div class="row">
+                                                        <div class="col-1">
+                                                            <div id=""> <img src="icons/letra-n-minuscula.png"
+                                                                    class="sizeImagenLetras">
+                                                            </div>
+                                                        </div>
+                                                        <div class="col-5">
+                                                            <input type="text" class="form-control form-control-sm"
+                                                                id="txtCantidadSustancia" placeholder="número de moles">
+                                                        </div>
+                                                        <div class="col-1">
+                                                            <div class="medidaCantidades">mol</div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="col-md-12">
+                                                <div class="form-group mx-sm-1 mb-2">
+                                                    <div class="row">
+                                                        <div class="col-1">
+                                                            <div id=""> <img src="icons/r.png" class="sizeImagenLetras">
+                                                            </div>
+                                                        </div>
+                                                        <div class="col-5">
+                                                            <input type="text" class="form-control form-control-sm"
+                                                                id="txtConstanteG" placeholder="Constante de los gases"
+                                                                value="0.082">
+                                                        </div>
+                                                        <div class="col-1">
+                                                            <div class="medidaCantidades">atm*L/mol*K</div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="col-md-12">
+                                                <div class="form-group mx-sm-1 mb-2">
+                                                    <div class="row">
+                                                        <div class="col-1">
+                                                            <div id=""> <img src="icons/temperatura.png"
+                                                                    class="sizeImagenLetras">
+                                                            </div>
+                                                        </div>
+                                                        <div class="col-5">
+                                                            <input type="text" class="form-control form-control-sm"
+                                                                id="txtTemperaturaG" placeholder="Temperatura °K">
+                                                        </div>
+                                                        <div class="col-1">
+                                                            <div class="medidaCantidades">°K</div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="col-md-12" id="campo2" style="display: none;">
+                                                <div class="form-group mx-sm-1 mb-2">
+                                                    <div class="row">
+                                                        <div class="col-1">
+                                                            <div id=""> <img src="icons/letra-m.png"
+                                                                    class="sizeImagenLetras">
+                                                            </div>
+                                                        </div>
+                                                        <div class="col-5">
+                                                            <input type="text" class="form-control form-control-sm"
+                                                                id="txtMasa" placeholder="masa">
+                                                        </div>
+                                                        <div class="col-1">
+                                                            <div class="medidaCantidades">g</div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="col-md-12" id="campo3" style="display: none;">
+                                                <div class="form-group mx-sm-1 mb-2">
+                                                    <div class="row">
+                                                        <div class="col-1">
+                                                            <div id=""> <img src="icons/MM.png"
+                                                                    class="sizeImagenLetras">
+                                                            </div>
+                                                        </div>
+                                                        <div class="col-5">
+                                                            <input type="text" class="form-control form-control-sm"
+                                                                id="txtMasaMolecular" placeholder="Peso molecular">
+                                                        </div>
+                                                        <div class="col-1">
+                                                            <div class="medidaCantidades"></div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="col-md-12">
+                                                <div class="form-group mx-sm-1 mb-2">
+                                                    <div class="col-7">
+                                                        <div class="row">
+                                                            <label>Formula</label>
+                                                            <select id="listaFormulas" name="listaFormulas"
+                                                                class="form-control">
+                                                                <option value="1">PV=nRT</option>
+                                                                <option value="2">PV=mRT/M</option>
+                                                            </select>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="col-md-12">
+                                                <div class="form-group mx-sm-1 mb-2">
+                                                    <div class="col-7">
+                                                        <div class="row">
+                                                            <label>¿Qué desea calcular?</label>
+                                                            <select id="listaConceptos" name="listaConceptos"
+                                                                class="form-control">
+                                                                <option value="1">Presion</option>
+                                                                <option value="2">Volumen</option>
+                                                                <option value="3">Temperatura</option>
+                                                                <option value="4">moles(n)</option>
+                                                                <option value="5">masa (g)</option>
+                                                                <option value="6">Peso Molecular</option>
+                                                            </select>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="col-md-12">
+                                                <br>
+                                                <div class="row">
+                                                    <div class="form-group mx-sm-3 mb-2">
+                                                        <button type="button" id="btnCalcularGases"
+                                                            class="btn btn-primary btn-sm">Calcular</button>
+                                                    </div>
+                                                    <div class="form-group mx-sm-3 mb-2">
+                                                        <button type="button" id="btnLimpiarGases"
+                                                            class="btn btn-success btn-sm">Limpiar
+                                                            Campos</button>
+                                                    </div>
+                                                    <div class="form-group mx-sm-3 mb-2">
+                                                        <img src="icons/calculator.png" onclick="modalCal()">
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-3">
+                                <div class="row">
+                                    <h4>Resultado</h4>
+                                </div>
+                                <div class="row">
+                                    <input type="text" class="form-control form-control-sm" id="resultadoGases"
+                                        placeholder="Resultado" readonly>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <!--GIBBS-->
+                <div class="tab-pane fade" id="nav-energia" role="tabpanel" aria-labelledby="nav-energia-tab">
+                    <div class="container-fluid">
+                        <br>
+                        <div class="row">
+                            <div class="col-6">
+                                <div class="row">
+                                    <div class="container">
+                                        <div class="row align-items-center">
+                                            <div class="col-md-12">
+                                                <h4>Datos</h4>
+                                            </div><br>
+                                            <div class="col-md-12">
+                                                <div class="form-group mx-sm-1 mb-2">
+                                                    <div class="row">
+                                                        <div class="col-1">
+                                                            <div id=""> <img src="icons/deltaG.svg" class="sizeImagen">
+                                                            </div>
+                                                        </div>
+                                                        <div class="col-5">
+                                                            <input type="text" class="form-control form-control-sm"
+                                                                id="txtEnergiaGibbs"
+                                                                placeholder="Cambio de energia de Gibbs">
+                                                        </div>
+                                                        <div class="col-3">
+                                                            <div class="medidaCantidades">KJ</div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="col-md-12">
+                                                <div class="form-group mx-sm-1 mb-2">
+                                                    <div class="row">
+                                                        <div class="col-1">
+                                                            <div id=""> <img src="icons/h.png" class="sizeImagenLetras">
+                                                            </div>
+                                                        </div>
+                                                        <div class="col-5">
+                                                            <input type="text" class="form-control form-control-sm"
+                                                                id="txtCambioEntalpia" placeholder="Entalpía">
+                                                        </div>
+                                                        <div class="col-2">
+                                                            <div class="medidaCantidades">KJ</div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="col-md-12">
+                                                <div class="form-group mx-sm-1 mb-2">
+                                                    <div class="row">
+                                                        <div class="col-1">
+                                                            <div id=""> <img src="icons/temperatura.png"
+                                                                    class="sizeImagenLetras">
+                                                            </div>
+                                                        </div>
+                                                        <div class="col-5">
+                                                            <input type="text" class="form-control form-control-sm"
+                                                                id="txtTemperaturaGibbs" placeholder="Temperatura °K">
+                                                        </div>
+                                                        <div class="col-1">
+                                                            <div class="medidaCantidades">°K</div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="col-md-12">
+                                                <div class="form-group mx-sm-1 mb-2">
+                                                    <div class="row">
+                                                        <div class="col-1">
+                                                            <div id=""> <img src="icons/deltaS.png" class="sizeImagen">
+                                                            </div>
+                                                        </div>
+                                                        <div class="col-5">
+                                                            <input type="text" class="form-control form-control-sm"
+                                                                id="txtCambioEntropia" placeholder="Entropía">
+                                                        </div>
+                                                        <div class="col-2">
+                                                            <div class="medidaCantidades">J/K</div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="col-md-12">
+                                                <br><br>
+                                                <div class="row">
+                                                    <div class="form-group mx-sm-3 mb-2">
+                                                        <button type="button" id="btnCalcularGibbs"
+                                                            class="btn btn-primary btn-sm">Calcular</button>
+                                                    </div>
+                                                    <div class="form-group mx-sm-3 mb-2">
+                                                        <button type="button" id="btnLimpiarGibbs"
+                                                            class="btn btn-success btn-sm">Limpiar
+                                                            Campos</button>
+                                                    </div>
+                                                    <div class="form-group mx-sm-3 mb-2">
+                                                        <img src="icons/calculator.png" onclick="modalCal()">
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-3">
+                                <div class="row">
+                                    <h4>Resultado</h4>
+                                </div>
+                                <div class="row">
+                                    <input type="text" class="form-control form-control-sm" id="resultadoGibbs"
+                                        placeholder="Resultado" readonly>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</body>
+<script src="js/metodos.js"></script>
+<script src="js/calculadora.js"></script>  
+<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.3/umd/popper.min.js"
+    integrity="sha384-ZMP7rVo3mIykV+2+9J3UJ46jBk0WLaUAdn689aCwoqbBJiSnjAK/l8WvCWPIPm49"
+    crossorigin="anonymous"></script>
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/js/bootstrap.min.js"
+    integrity="sha384-ChfqqxuZUCnJSK3+MXmPNIyE6ZbWh2IMqE241rYiqJxyMiZ6OW/JmZQ5stwEULTy"
+    crossorigin="anonymous"></script>
+
+</html>
